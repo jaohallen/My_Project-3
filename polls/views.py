@@ -1,6 +1,7 @@
 from .models import Choice, Question
 
-from django.http import HttpResponse
+from django.core.urlresolvers import reverse, reverse_lazy
+from django.http import HttpResponseRedirect, HttpResponse
 from django.utils import timezone
 from django.views import generic
 
@@ -60,7 +61,7 @@ class CreateQuestionView(generic.CreateView):
 
     def post(self, request, *args, **kwargs):
         self.object = None
-        context = super(CreateView, self).post(request, *args, **kwargs)
+        context = super(CreateQuestionView, self).post(request, *args, **kwargs)
         """
         Handles POST requests, instantiating a form instance with the passed
         POST variables and then checked for validity.
