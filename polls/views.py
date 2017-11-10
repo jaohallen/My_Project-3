@@ -2,6 +2,7 @@ from .models import Choice, Question
 
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponse
+from django.shortcuts import get_object_or_404, render
 from django.utils import timezone
 from django.views import generic
 
@@ -160,15 +161,8 @@ class ResultsView(generic.DetailView):
     template_name = 'polls/results.html'
 
     def post(self, request, *args, **kwargs):
-        """
-        Handles POST requests, instantiating a form instance with the passed
-        POST variables and then checked for validity.
-        """
-        form = self.get_form()
-        if form.is_valid():
-            selected_choice = p.choice_set.get(pk=request.POST['choice'])
-            selected_choice.votes += 1
-            selected_choice.save()
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
+        selected_choice = Choice.objects.get(pk=self.request.POST['choice'])
+        selected_choice.votes += 1
+        selected_choice.save()
+
+        return super(ResultsView, self).get(request, args, *kwargs)
