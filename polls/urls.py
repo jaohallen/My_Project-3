@@ -12,4 +12,6 @@ urlpatterns = [
         name='editquestion'),
     url(r'^addchoice/$', views.CreateChoiceView.as_view(),
         name='addchoice'),
+    url(r'^(?P<pk>[0-9]+)/results/$', views.ResultsView.as_view(),
+        name='vote'),
 ]
