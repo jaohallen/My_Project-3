@@ -10,6 +10,6 @@ urlpatterns = [
     url(r'^create/$', views.CreateQuestionView.as_view(), name='create'),
     url(r'^(?P<pk>[0-9]+)/update/$', views.UpdateQuestionView.as_view(),
         name='editquestion'),
-    url(r'^(?P<pk>[0-9]+)/addchoice/$', views.CreateChoiceView.as_view(),
+    url(r'^addchoice/$', views.CreateChoiceView.as_view(),
         name='addchoice'),
 ]
