@@ -120,6 +120,10 @@ class UpdateQuestionView(generic.UpdateView):
             if existing:
                 return self.form_invalid(form=form, error=1)
             else:
+                q = Question.objects.get(pk=request.POST['id'])
+                q.question_text = entry
+                q.pub_date = timezone.now()
+                q.save()
                 return self.form_valid(form)
 
         else:
