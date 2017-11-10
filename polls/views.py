@@ -153,3 +153,22 @@ class CreateChoiceView(generic.CreateView):
     template_name = 'polls/createchoice.html'
     form_class = CreateChoiceForm
     success_url = reverse_lazy('polls:index')
+
+
+class ResultsView(generic.DetailView):
+    model = Question
+    template_name = 'polls/results.html'
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handles POST requests, instantiating a form instance with the passed
+        POST variables and then checked for validity.
+        """
+        form = self.get_form()
+        if form.is_valid():
+            selected_choice = p.choice_set.get(pk=request.POST['choice'])
+            selected_choice.votes += 1
+            selected_choice.save()
+            return self.form_valid(form)
+        else:
+            return self.form_invalid(form)
