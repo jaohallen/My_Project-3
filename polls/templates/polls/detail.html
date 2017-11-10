@@ -11,5 +11,6 @@
 <input type="submit" value="Vote" name="vote" />
 </form>
 
+<a href="{% url 'polls:addchoice' question.id %}">Add Choice</a>
 <a href="{% url 'polls:editquestion' question.id %}">Update Question</a>
 <a href="{% url 'polls:index' %}">Home</a>
