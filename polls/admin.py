@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.models import Choice, Question
+from .models import Choice, Question
 
 
 class QuestionAdmin(admin.ModelAdmin):
