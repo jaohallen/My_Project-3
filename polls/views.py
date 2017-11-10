@@ -105,7 +105,7 @@ class CreateQuestionView(generic.CreateView):
 
 class UpdateQuestionView(generic.UpdateView):
     model = Question
-    template_name = 'polls/generic.html'
+    template_name = 'polls/updatequestion.html'
     form_class = UpdateQuestionForm
 
     def post(self, request, *args, **kwargs):
