@@ -55,7 +55,7 @@ class DetailView(generic.DetailView):
 
 class CreateQuestionView(generic.CreateView):
     model = Question
-    template_name = 'polls/index.html'
+    template_name = 'polls/createquestion.html'
     form_class = CreateQuestionForm
 
     def post(self, request, *args, **kwargs):
