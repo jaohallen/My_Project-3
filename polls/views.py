@@ -1,8 +1,10 @@
+from .models import Choice, Question
+
 from django.http import HttpResponse
 from django.utils import timezone
 from django.views import generic
 
-from .models import Choice, Question
+from polls.forms.createquestion_form import CreateQuestionForm
 
 
 class IndexView(generic.ListView):
@@ -53,7 +55,7 @@ class DetailView(generic.DetailView):
 
 class CreateQuestionView(generic.CreateView):
     model = Question
-    template_name = 'polls/createquestion.html'
+    template_name = 'polls/index.html'
     form_class = CreateQuestionForm
 
     def post(self, request, *args, **kwargs):
