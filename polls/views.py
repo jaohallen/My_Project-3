@@ -7,6 +7,7 @@ from django.views import generic
 
 from polls.forms.createquestion_form import CreateQuestionForm
 from polls.forms.updatequestion_form import UpdateQuestionForm
+from polls.forms.createchoice_form import CreateChoiceForm
 
 
 class IndexView(generic.ListView):
@@ -149,47 +150,6 @@ class UpdateQuestionView(generic.UpdateView):
 
 class CreateChoiceView(generic.CreateView):
     model = Question
-    template_name = 'polls/createquestion.html'
-    form_class = CreateQuestionForm
-
-    def post(self, request, *args, **kwargs):
-        self.object = None
-        context = super(
-            CreateQuestionView, self).post(request, *args, **kwargs)
-        """
-        Handles POST requests, instantiating a form instance with the passed
-        POST variables and then checked for validity.
-        """
-        # i = request.POST['question_text']
-        form = self.get_form()
-        if form.is_valid():
-            entry = request.POST['question_text']
-            existing = Question.objects.filter(question_text=entry).exists()
-
-            if existing:
-                return self.form_invalid(form=form, error=1)
-            else:
-                q = Question.objects.create(
-                    question_text=entry, pub_date=timezone.now())
-                q.save()
-                return self.form_valid(form)
-
-        else:
-            return self.form_invalid(form)
-
-    def form_valid(self, form):
-        """
-        If the form is valid, redirect to the supplied URL.
-        """
-        return HttpResponseRedirect(reverse('polls:index'))
-
-    def form_invalid(self, form, error):
-        """
-        If the form is invalid, re-render the context data with the
-        data-filled form and errors.
-        """
-        if error == 1:
-            return self.render_to_response(self.get_context_data(
-                form=form, error_message="Existing entry"))
-        else:
-            return self.render_to_response(self.get_context_data(form=form))
+    template_name = 'polls/createchoice.html'
+    form_class = CreateChoiceForm
+    success_url = reverse('polls:index')
