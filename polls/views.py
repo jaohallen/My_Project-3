@@ -29,6 +29,7 @@ class DetailView(generic.DetailView):
         """
         return Question.objects.filter(pub_date__lte=timezone.now())
 
+    '''
     def vote(request, question_id):
         p = get_object_or_404(Question, pk=question_id)
 
@@ -47,4 +48,51 @@ class DetailView(generic.DetailView):
             # with POST data. This prevents data from being posted twice if a
             # user hits the Back button.
             # return HttpResponseRedirect(reverse('polls:results', args=(p.id,)))
-            return HttpResponseRedirect('Results view')
+            return HttpResponseRedirect('Results view')'''
+
+
+class CreateQuestionView(generic.CreateView):
+    model = Question
+    template_name = 'polls/createquestion.html'
+    form_class = CreateQuestionForm
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        context = super(CreateView, self).post(request, *args, **kwargs)
+        """
+        Handles POST requests, instantiating a form instance with the passed
+        POST variables and then checked for validity.
+        """
+        # i = request.POST['question_text']
+        form = self.get_form()
+        if form.is_valid():
+            entry = request.POST['question_text']
+            existing = Question.objects.filter(question_text=entry).exists()
+
+            if existing:
+                return self.form_invalid(form=form, error=1)
+            else:
+                q = Question.objects.create(
+                    question_text=entry, pub_date=timezone.now())
+                q.save()
+                return self.form_valid(form)
+
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        """
+        If the form is valid, redirect to the supplied URL.
+        """
+        return HttpResponseRedirect(reverse('polls:index'))
+
+    def form_invalid(self, form, error):
+        """
+        If the form is invalid, re-render the context data with the
+        data-filled form and errors.
+        """
+        if error == 1:
+            return self.render_to_response(self.get_context_data(
+                form=form, error_message="Existing entry"))
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
