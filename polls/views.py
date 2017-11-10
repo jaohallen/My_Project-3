@@ -1,5 +1,8 @@
 from django.http import HttpResponse
+from django.utils import timezone
 from django.views import generic
+
+from .models import Choice, Question
 
 
 class IndexView(generic.ListView):
