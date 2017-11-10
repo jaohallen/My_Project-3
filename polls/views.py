@@ -99,3 +99,43 @@ class CreateQuestionView(generic.CreateView):
                 form=form, error_message="Existing entry"))
         else:
             return self.render_to_response(self.get_context_data(form=form))
+
+
+class UpdateQuestionView(generic.UpdateView):
+    model = Question
+    template_name = 'polls/generic.html'
+    form_class = UpdateVotesForm
+
+    def post(self, request, *args, **kwargs):
+        self.object = None
+        context = super(
+            CreateQuestionView, self).post(request, *args, **kwargs)
+        form = self.get_form()
+        if form.is_valid():
+            entry = request.POST['question_text']
+            existing = Question.objects.filter(question_text=entry).exists()
+
+            if existing:
+                return self.form_invalid(form=form, error=1)
+            else:
+                return self.form_valid(form)
+
+        else:
+            return self.form_invalid(form)
+
+    def form_valid(self, form):
+        """
+        If the form is valid, redirect to the supplied URL.
+        """
+        return HttpResponseRedirect(reverse('polls:index'))
+
+    def form_invalid(self, form, error):
+        """
+        If the form is invalid, re-render the context data with the
+        data-filled form and errors.
+        """
+        if error == 1:
+            return self.render_to_response(self.get_context_data(
+                form=form, error_message="Existing entry"))
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
