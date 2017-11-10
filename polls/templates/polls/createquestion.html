@@ -1,0 +1,8 @@
+Create Question
+/<strong>{{ error_message }}</strong>/
+<br>
+<form method="POST">
+{% csrf_token %}
+{{ form }}
+<input type="submit" value="Submit" name="submit" />
+</form>
