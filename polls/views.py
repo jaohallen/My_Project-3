@@ -152,4 +152,4 @@ class CreateChoiceView(generic.CreateView):
     model = Question
     template_name = 'polls/createchoice.html'
     form_class = CreateChoiceForm
-    success_url = reverse('polls:index')
+    success_url = reverse_lazy('polls:index')
