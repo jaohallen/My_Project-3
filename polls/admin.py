@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.contrib import admin
-from django.models import Question
+from django.models import Choice, Question
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -11,5 +11,12 @@ class QuestionAdmin(admin.ModelAdmin):
         ('Date information', {'fields': ['pub_date']}),
     ]
 
+
+class ChoiceInline(admin.StackedInline):
+    model = Choice
+    extra = 3
+
+
 admin.site.register(Question, QuestionAdmin)
+admin.site.register(Choice)
 # Register your models here.
