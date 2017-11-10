@@ -1,0 +1,17 @@
+<h1>{{ question.question_text }} {{ question.id }}</h1>	
+
+<hr>
+<form method="POST">
+{% csrf_token %}
+{% for field in form %}
+    <div class="fieldWrapper">
+        {{ field.errors }}
+        <label>{{ field.label|upper }}</label> {{ field }} {{ field.label }} {{ field.id}}
+        {% if field.help_text %}
+        <p class="help">{{ field.help_text|safe }}</p>
+        {% endif %}
+    </div>
+{% endfor %}
+<input type="hidden" value="{{ question.id }}" name="id" />
+<input type="submit" value="Submit" name="submit" />
+</form>
