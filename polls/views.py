@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.views import generic
 
 from polls.forms.createquestion_form import CreateQuestionForm
+from polls.forms.updatequestion_form import UpdateQuestionForm
 
 
 class IndexView(generic.ListView):
@@ -61,7 +62,8 @@ class CreateQuestionView(generic.CreateView):
 
     def post(self, request, *args, **kwargs):
         self.object = None
-        context = super(CreateQuestionView, self).post(request, *args, **kwargs)
+        context = super(
+            CreateQuestionView, self).post(request, *args, **kwargs)
         """
         Handles POST requests, instantiating a form instance with the passed
         POST variables and then checked for validity.
@@ -104,12 +106,12 @@ class CreateQuestionView(generic.CreateView):
 class UpdateQuestionView(generic.UpdateView):
     model = Question
     template_name = 'polls/generic.html'
-    form_class = UpdateVotesForm
+    form_class = UpdateQuestionForm
 
     def post(self, request, *args, **kwargs):
         self.object = None
         context = super(
-            CreateQuestionView, self).post(request, *args, **kwargs)
+            UpdateQuestionView, self).post(request, *args, **kwargs)
         form = self.get_form()
         if form.is_valid():
             entry = request.POST['question_text']
